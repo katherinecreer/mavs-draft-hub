@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import mavsLogo from '../assets/logo2.png';
+import mavsLogo from '../assets/logo3.png';
 import mavsLogo2 from '../assets/mavs.png';
 import '../styles/mavsHeader.css';
 

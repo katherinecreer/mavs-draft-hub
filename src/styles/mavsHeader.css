@@ -4,7 +4,7 @@
   align-items: center;
   padding: 1rem 2rem;
   /* Mavs hex color #00538C */
-  background-color: #20558f; 
+  background-color: #00538C; 
   color: white;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -36,8 +36,8 @@
 }
 
 .header-content .mavs-logo {
-  height: 45%;
-  width: 45%;
+  height: 35%;
+  width: 35%;
   object-fit: contain;
   margin-bottom: 30px;
   margin-top: 30px;
