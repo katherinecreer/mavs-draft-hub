@@ -1,0 +1,356 @@
+[
+  {
+    "pick": 1,
+    "team": "Dallas Mavericks",
+    "gm": "Nico Harrison",
+    "contact": "https://www.nba.com/mavericks/contact"
+  },
+  {
+    "pick": 2,
+    "team": "San Antonio Spurs",
+    "gm": "Brian Wright",
+    "contact": "https://www.nba.com/spurs/leadership"
+  },
+  {
+    "pick": 3,
+    "team": "Philadelphia 76ers",
+    "gm": "Elton Brand",
+    "contact": "https://www.nba.com/sixers/contact"
+  },
+  {
+    "pick": 4,
+    "team": "Charlotte Hornets",
+    "gm": "Jeff Peterson",
+    "contact": "https://www.nba.com/hornets/contact"
+  },
+  {
+    "pick": 5,
+    "team": "Utah Jazz",
+    "gm": "Justin Zanik",
+    "contact": "https://www.nba.com/jazz/contact"
+  },
+  {
+    "pick": 6,
+    "team": "Washington Wizards",
+    "gm": "Will Dawkins",
+    "contact": "https://www.nba.com/wizards/meet-staff"
+  },
+  {
+    "pick": 7,
+    "team": "New Orleans Pelicans",
+    "gm": "Bryson Graham",
+    "contact": "https://www.nba.com/pelicans/contact"
+  },
+  {
+    "pick": 8,
+    "team": "Brooklyn Nets",
+    "gm": "Sean Marks",
+    "contact": "https://www.nba.com/nets/front-office"
+  },
+  {
+    "pick": 9,
+    "team": "Toronto Raptors",
+    "gm": "Bobby Webster",
+    "contact": "https://www.nba.com/raptors/team/raptors-management"
+  },
+  {
+    "pick": 10,
+    "team": "Houston Rockets",
+    "gm": "Rafael Stone",
+    "contact": "https://www.nba.com/rockets/front-office"
+  },
+  {
+    "pick": 11,
+    "team": "Portland Trail Blazers",
+    "gm": "Joe Cronin",
+    "contact": "https://www.nba.com/blazers/frontoffice"
+  },
+  {
+    "pick": 12,
+    "team": "Chicago Bulls",
+    "gm": "Marc Eversley",
+    "contact": "https://www.nba.com/bulls/chicago-bulls-staff-directory"
+  },
+  {
+    "pick": 13,
+    "team": "Atlanta Hawks",
+    "gm": "Onsi Saleh",
+    "contact": "https://www.nba.com/hawks/contact"
+  },
+  {
+    "pick": 14,
+    "team": "San Antonio Spurs",
+    "gm": "Brian Wright",
+    "contact": "https://www.nba.com/spurs/leadership"
+  },
+  {
+    "pick": 15,
+    "team": "Oklahoma City Thunder",
+    "gm": "Sam Presti",
+    "contact": "https://www.nba.com/thunder/contact"
+  },
+  {
+    "pick": 16,
+    "team": "Orlando Magic",
+    "gm": "Anthony Parker",
+    "contact": "https://www.nba.com/magic/orlando-magic-executives"
+  },
+  {
+    "pick": 17,
+    "team": "Minnesota Timberwolves",
+    "gm": "Matt Lloyd",
+    "contact": "https://www.nba.com/timberwolves/contact"
+  },
+  {
+    "pick": 18,
+    "team": "Washington Wizards",
+    "gm": "Will Dawkins",
+    "contact": "https://www.nba.com/wizards/meet-staff"
+  },
+  {
+    "pick": 19,
+    "team": "Brooklyn Nets",
+    "gm": "Sean Marks",
+    "contact": "https://www.nba.com/nets/front-office"
+  },
+  {
+    "pick": 20,
+    "team": "Miami Heat",
+    "gm": "Andy Elisburg",
+    "contact": "https://www.nba.com/heat/contact"
+  },
+  {
+    "pick": 21,
+    "team": "Utah Jazz",
+    "gm": "Justin Zanik",
+    "contact": "https://www.nba.com/jazz/contact"
+  },
+  {
+    "pick": 22,
+    "team": "Atlanta Hawks",
+    "gm": "Onsi Saleh",
+    "contact": "https://www.nba.com/hawks/contact"
+  },
+  {
+    "pick": 23,
+    "team": "Indiana Pacers",
+    "gm": "Chad Buchanan",
+    "contact": "https://www.nba.com/pacers/contact-us"
+  },
+  {
+    "pick": 24,
+    "team": "Oklahoma City Thunder",
+    "gm": "Sam Presti",
+    "contact": "https://www.nba.com/thunder/contact"
+  },
+  {
+    "pick": 25,
+    "team": "Orlando Magic",
+    "gm": "Anthony Parker",
+    "contact": "https://www.nba.com/magic/orlando-magic-executives"
+  },
+  {
+    "pick": 26,
+    "team": "Brooklyn Nets",
+    "gm": "Sean Marks",
+    "contact": "https://www.nba.com/nets/front-office"
+  },
+  {
+    "pick": 27,
+    "team": "Brooklyn Nets",
+    "gm": "Sean Marks",
+    "contact": "https://www.nba.com/nets/front-office"
+  },
+  {
+    "pick": 28,
+    "team": "Boston Celtics",
+    "gm": "Unknown",
+    "contact": "https://www.nba.com/boston-celtics/contact"
+  },
+  {
+    "pick": 29,
+    "team": "Phoenix Suns",
+    "gm": "Brian Gregory",
+    "contact": "https://www.nba.com/phoenix-suns/contact"
+  },
+  {
+    "pick": 30,
+    "team": "LA Clippers",
+    "gm": "Trent Redden",
+    "contact": "https://www.nba.com/clippersclippers/contact"
+  },
+  {
+    "pick": 31,
+    "team": "Minnesota Timberwolves",
+    "gm": "Matt Lloyd",
+    "contact": "https://www.nba.com/minnesota-timberwolves/contact"
+  },
+  {
+    "pick": 32,
+    "team": "Boston Celtics",
+    "gm": "Unknown",
+    "contact": "https://www.nba.com/boston-celtics/contact"
+  },
+  {
+    "pick": 33,
+    "team": "Charlotte Hornets",
+    "gm": "Unknown",
+    "contact": "https://www.nba.com/charlotte-hornets/contact"
+  },
+  {
+    "pick": 34,
+    "team": "Charlotte Hornets",
+    "gm": "Unknown",
+    "contact": "https://www.nba.com/charlotte-hornets/contact"
+  },
+  {
+    "pick": 35,
+    "team": "Philadelphia 76ers",
+    "gm": "Elton Brand",
+    "contact": "https://www.nba.com/philadelphia-76ers/contact"
+  },
+  {
+    "pick": 36,
+    "team": "Brooklyn Nets",
+    "gm": "Sean Marks",
+    "contact": "https://www.nba.com/nets/front-office"
+  },
+  {
+    "pick": 37,
+    "team": "Detroit Pistons",
+    "gm": "Unknown",
+    "contact": "https://www.nba.com/detroit-pistons/contact"
+  },
+  {
+    "pick": 38,
+    "team": "San Antonio Spurs",
+    "gm": "Brian Wright",
+    "contact": "https://www.nba.com/san-antonio-spurs/contact"
+  },
+  {
+    "pick": 39,
+    "team": "Toronto Raptors",
+    "gm": "Bobby Webster",
+    "contact": "https://www.nba.com/toronto-raptors/contact"
+  },
+  {
+    "pick": 40,
+    "team": "Washington Wizards",
+    "gm": "Will Dawkins",
+    "contact": "https://www.nba.com/washington-wizards/contact"
+  },
+  {
+    "pick": 41,
+    "team": "Golden State Warriors",
+    "gm": "Mike Dunleavy",
+    "contact": "https://www.nba.com/golden-state-warriors/contact"
+  },
+  {
+    "pick": 42,
+    "team": "Sacramento Kings",
+    "gm": "Unknown",
+    "contact": "https://www.nba.com/sacramento-kings/contact"
+  },
+  {
+    "pick": 43,
+    "team": "Utah Jazz",
+    "gm": "Justin Zanik",
+    "contact": "https://www.nba.com/jazz/contact"
+  },
+  {
+    "pick": 44,
+    "team": "Oklahoma City Thunder",
+    "gm": "Sam Presti",
+    "contact": "https://www.nba.com/oklahoma-city-thunder/contact"
+  },
+  {
+    "pick": 45,
+    "team": "Chicago Bulls",
+    "gm": "Marc Eversley",
+    "contact": "https://www.nba.com/chicago-bulls/contact"
+  },
+  {
+    "pick": 46,
+    "team": "Orlando Magic",
+    "gm": "Anthony Parker",
+    "contact": "https://www.nba.com/orlando-magic/contact"
+  },
+  {
+    "pick": 47,
+    "team": "Milwaukee Bucks",
+    "gm": "Jon Horst",
+    "contact": "https://www.nba.com/milwaukee-bucks/contact"
+  },
+  {
+    "pick": 48,
+    "team": "Memphis Grizzlies",
+    "gm": "Zachary Kleiman",
+    "contact": "https://www.nba.com/memphis-grizzlies/contact"
+  },
+  {
+    "pick": 49,
+    "team": "Cleveland Cavaliers",
+    "gm": "Mike Gansey",
+    "contact": "https://www.nba.com/cleveland-cavaliers/contact"
+  },
+  {
+    "pick": 50,
+    "team": "New York Knicks",
+    "gm": "Scott Perry",
+    "contact": "https://www.nba.com/new-york-knicks/contact"
+  },
+  {
+    "pick": 51,
+    "team": "LA Clippers",
+    "gm": "Trent Redden",
+    "contact": "https://www.nba.com/clippersclippers/contact"
+  },
+  {
+    "pick": 52,
+    "team": "Phoenix Suns",
+    "gm": "Brian Gregory",
+    "contact": "https://www.nba.com/phoenix-suns/contact"
+  },
+  {
+    "pick": 53,
+    "team": "Utah Jazz",
+    "gm": "Justin Zanik",
+    "contact": "https://www.nba.com/jazz/contact"
+  },
+  {
+    "pick": 54,
+    "team": "Indiana Pacers",
+    "gm": "Chad Buchanan",
+    "contact": "https://www.nba.com/indiana-pacers/contact"
+  },
+  {
+    "pick": 55,
+    "team": "Los Angeles Lakers",
+    "gm": "Rob Pelinka",
+    "contact": "https://www.nba.com/lakers-lakers/contact"
+  },
+  {
+    "pick": 56,
+    "team": "Memphis Grizzlies",
+    "gm": "Zachary Kleiman",
+    "contact": "https://www.nba.com/memphis-grizzlies/contact"
+  },
+  {
+    "pick": 57,
+    "team": "Orlando Magic",
+    "gm": "Anthony Parker",
+    "contact": "https://www.nba.com/orlando-magic/contact"
+  },
+  {
+    "pick": 58,
+    "team": "Cleveland Cavaliers",
+    "gm": "Mike Gansey",
+    "contact": "https://www.nba.com/cleveland-cavaliers/contact"
+  },
+  {
+    "pick": 59,
+    "team": "Houston Rockets",
+    "gm": "Rafael Stone",
+    "contact": "https://www.nba.com/houston-rockets/contact"
+  }
+]
