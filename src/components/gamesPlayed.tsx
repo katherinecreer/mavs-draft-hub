@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { playerService } from '../services/playerService';
 import type { GameLog } from '../services/playerService';
 import '../styles/gamesPlayed.css';
+import { TablePagination } from '@mui/material';
 
 interface GamesPlayedProps {
   playerId: number;
@@ -11,7 +12,8 @@ const GamesPlayed = ({ playerId }: GamesPlayedProps) => {
   const [games, setGames] = useState<GameLog[]>([]);
   const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
   const [seasons, setSeasons] = useState<number[]>([]);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
     const logs = playerService.getPlayerGameLogs(playerId);
@@ -24,13 +26,30 @@ const GamesPlayed = ({ playerId }: GamesPlayedProps) => {
     setSelectedSeason(uniqueSeasons[0] || null);
   }, [playerId]);
 
-  // Reset expanded state when season changes
+  // Reset page when season changes
   useEffect(() => {
-    setIsExpanded(false);
+    setPage(0);
   }, [selectedSeason]);
 
   const filteredGames = games.filter(game => game.season === selectedSeason);
-  const displayGames = isExpanded ? filteredGames : filteredGames.slice(0, 3);
+  const displayGames = filteredGames.slice(
+    page * rowsPerPage,
+    page * rowsPerPage + rowsPerPage
+  );
+
+  const handleChangePage = (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number,
+  ) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <div className="games-played-container">
@@ -48,14 +67,6 @@ const GamesPlayed = ({ playerId }: GamesPlayedProps) => {
               </option>
             ))}
           </select>
-          {filteredGames.length > 3 && (
-            <button 
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="expand-button"
-            >
-              {isExpanded ? 'Show Last 3' : `Show All (${filteredGames.length})`}
-            </button>
-          )}
         </div>
       </div>
 
@@ -105,6 +116,21 @@ const GamesPlayed = ({ playerId }: GamesPlayedProps) => {
             ))}
           </tbody>
         </table>
+        <TablePagination
+          component="div"
+          count={filteredGames.length}
+          page={page}
+          onPageChange={handleChangePage}
+          rowsPerPage={rowsPerPage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+          sx={{
+            '.MuiTablePagination-select': {
+              paddingTop: '0.5rem',
+              paddingBottom: '0.5rem'
+            }
+          }}
+        />
       </div>
     </div>
   );

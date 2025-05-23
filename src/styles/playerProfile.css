@@ -36,7 +36,7 @@
   margin-bottom: 3rem;
   background: white;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -120,7 +120,7 @@
 .stats-section {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -183,7 +183,7 @@
   width: 100%;
   overflow-x: auto;
   margin: 1rem 0;
-  border-radius: 8px;
+  border-radius: 4px;
   background: white;
 }
 
@@ -228,7 +228,7 @@
 .stats-card {
   background: white;
   padding: 2rem;
-  border-radius: 12px;
+  border-radius: 4px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 2rem;
 }
@@ -247,7 +247,7 @@
   color: #1d428a;
   border: 1px solid #e0e4e8;
   padding: 0.75rem 1.25rem;
-  border-radius: 6px;
+  border-radius: 4px;
   cursor: pointer;
   font-size: 0.9rem;
   transition: all 0.2s;
@@ -279,7 +279,7 @@
 .scouting-reports {
   background: white;
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -298,7 +298,7 @@
 .scouting-section {
   padding: 1rem;
   background: #f8f9fa;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 
 .scouting-section h3 {
@@ -406,7 +406,7 @@
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #e0e4e8;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 0.9rem;
   resize: vertical;
   margin-bottom: 1rem;
@@ -461,7 +461,7 @@
 .internal-note {
   background-color: white;
   border: 1px solid #e0e4e8;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 1rem;
 }
 
@@ -584,7 +584,7 @@
   right: -10px;
   width: 300px;
   background: white;
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 12px;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
   z-index: 100;
@@ -668,7 +668,7 @@
 .modal-content {
   background-color: rgb(17, 24, 39);
   padding: 1.5rem;
-  border-radius: 12px;
+  border-radius: 4px;
   max-width: 900px;
   width: 95%;
   position: relative;
@@ -744,4 +744,26 @@
   .modal-content {
     padding: 1rem;
   }
+}
+
+.navigation-header {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+  gap: 2rem;
+}
+
+.player-selector {
+  width: 100%;
+}
+
+.player-dropdown {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  background-color: white;
 } 

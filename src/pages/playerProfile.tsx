@@ -5,6 +5,16 @@ import type { Player, SeasonLog, ScoutingReport, ScoutRanking, Measurement } fro
 import { AiOutlineInfoCircle, AiOutlinePlus } from 'react-icons/ai';
 import GamesPlayed from '../components/GamesPlayed';
 import '../styles/playerProfile.css';
+import { 
+  Breadcrumbs, 
+  Link, 
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails
+} from '@mui/material';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface InternalNote {
   id: number;
@@ -262,10 +272,41 @@ const PlayerProfile = () => {
 
   return (
     <div className="player-profile-container">
-      <div className="navigation-controls">
-        <button className="back-button" onClick={() => navigate('/draft-hub')}>
-          Return to Hub
-        </button>
+      <div className="navigation-header">
+        <Breadcrumbs 
+          separator={<NavigateNextIcon fontSize="small" />} 
+          aria-label="breadcrumb"
+          sx={{ 
+            '& .MuiBreadcrumbs-ol': {
+              margin: 0
+            }
+          }}
+        >
+          <Link
+            underline="hover"
+            color="inherit"
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/');
+            }}
+          >
+            Home
+          </Link>
+          <Link
+            underline="hover"
+            color="inherit"
+            href="/draft-hub"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate('/draft-hub');
+            }}
+          >
+            Draft Hub
+          </Link>
+          <Typography color="text.primary">{player.name}</Typography>
+        </Breadcrumbs>
+
         <div className="player-selector">
           <select 
             value={player?.playerId || ''} 
@@ -585,20 +626,48 @@ const PlayerProfile = () => {
                   ))}
                 </div>
               </div>
-              <div className="scouting-section">
-                <h3>External Scout Notes</h3>
-                {scoutingReports.length > 0 ? (
-                  scoutingReports.map((report, index) => (
-                    <div key={report.reportId} className="scout-report">
-                      <h4>Report from {report.scout}</h4>
-                      <p>{report.report}</p>
-                      {index < scoutingReports.length - 1 && <hr />}
-                    </div>
-                  ))
-                ) : (
-                  <p>No scouting reports available</p>
-                )}
-              </div>
+
+              <Accordion 
+                sx={{ 
+                  backgroundColor: '#f8f9fa',
+                  boxShadow: 'none',
+                  '&:before': {
+                    display: 'none',
+                  },
+                  borderRadius: '8px',
+                  fontSize: '1rem',
+                  my: 2
+                }}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  sx={{
+                    padding: '1rem',
+                    '& .MuiAccordionSummary-content': {
+                      margin: 0
+                    },
+                    '& .MuiAccordionSummary-expandIconWrapper': {
+                      color: 'rgba(0, 0, 0, 0.54)'
+                    }
+                  }}
+                >
+                  <h3 style={{ margin: 0, fontSize: '1.5rem', color: '#27374D' }}>External Scout Notes</h3>
+                </AccordionSummary>
+                <AccordionDetails sx={{ padding: '0 1rem 1rem 1rem' }}>
+                  {scoutingReports.length > 0 ? (
+                    scoutingReports.map((report, index) => (
+                      <div key={report.reportId} className="scout-report">
+                        <h4>Report from {report.scout}</h4>
+                        <p>{report.report}</p>
+                        {index < scoutingReports.length - 1 && <hr />}
+                      </div>
+                    ))
+                  ) : (
+                    <p>No scouting reports available</p>
+                  )}
+                </AccordionDetails>
+              </Accordion>
+
               <div className="scouting-section">
                 <div className="ratings-header">
                   <div className="ratings-title-container">
