@@ -1,0 +1,130 @@
+.games-played-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.games-played-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0 0.5rem;
+}
+
+.games-played-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.games-played-controls {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.season-selector {
+  padding: 0.5rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #374151;
+  background-color: white;
+  min-width: 140px;
+  cursor: pointer;
+}
+
+.season-selector:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.expand-button {
+  padding: 0.5rem 1rem;
+  background-color: #1e3a8a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+.expand-button:hover {
+  background-color: #1e4620;
+}
+
+.games-played-table-container {
+  overflow-x: auto;
+}
+
+.games-played-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.675rem;
+  text-align: center;
+}
+
+.games-played-table th {
+  background-color: #f9fafb;
+  color: #4b5563;
+  font-weight: 600;
+  padding: 0.75rem;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.games-played-table td {
+  padding: 0.75rem;
+  border-bottom: 1px solid #e5e7eb;
+  color: #1f2937;
+}
+
+.games-played-table tr:hover {
+  background-color: #f9fafb;
+}
+
+.games-played-table td:first-child {
+  text-align: left;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .games-played-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .games-played-controls {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .season-selector {
+    flex: 1;
+    margin-right: 1rem;
+  }
+
+  .expand-button {
+    min-width: auto;
+  }
+
+  .games-played-table {
+    font-size: 0.75rem;
+  }
+
+  .games-played-table td,
+  .games-played-table th {
+    padding: 0.5rem;
+  }
+} 

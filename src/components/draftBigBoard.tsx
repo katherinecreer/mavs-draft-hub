@@ -67,7 +67,7 @@ const draftBigBoard: React.FC<draftBigBoardProps> = ({ players, handlePlayerClic
                     <div className="avatar-placeholder" />
                   )}
                 </div>
-                <span className="player-name">{player.name}</span>
+                <span className="player-name" style={{ textAlign: 'left' }}>{player.name}</span>
                 <span className="player-ranking">{averageRanking !== null ? averageRanking : '-'}</span>
               </div>
             );

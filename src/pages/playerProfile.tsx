@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { playerService } from '../services/playerService';
 import type { Player, SeasonLog, ScoutingReport, ScoutRanking } from '../services/playerService';
 import { AiOutlineInfoCircle } from 'react-icons/ai';
+import GamesPlayed from '../components/GamesPlayed';
 import '../styles/playerProfile.css';
 
 interface InternalNote {
@@ -405,6 +406,9 @@ const PlayerProfile = () => {
                 </table>
               </div>
             </div>
+
+            {/* Add GamesPlayed component */}
+            {player && <GamesPlayed playerId={player.playerId} />}
           </div>
         </div>
 
