@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: rem 2rem;
+  padding: 1rem 2rem;
   /* Mavs hex color #00538C */
   background-color: #20558f; 
   color: white;
@@ -10,6 +10,20 @@
   width: 100%;
   height: 180px;
   box-sizing: border-box;
+  position: relative;
+}
+
+.header > div:first-child {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.header > div:first-child .mavs-logo {
+  height: 60px;
+  width: auto;
+  margin: 0;
 }
 
 .header-content {
@@ -18,14 +32,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 40px;
+  margin: 0 auto;
 }
 
-.mavs-logo {
+.header-content .mavs-logo {
   height: 45%;
   width: 45%;
   object-fit: contain;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
+  margin-top: 30px;
 }
 
 .header-right {
@@ -47,34 +62,78 @@
   color: #B8C4CA;
 }
 
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1000;
+}
+
+.hamburger-line {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px 0;
+  background-color: white;
+  transition: transform 0.3s ease;
+}
+
 @media screen and (max-width: 768px) {
   .header {
-    padding: 0.75rem 1rem;
+    padding: 0rem 0rem;
+  }
+
+  .hamburger {
+    display: block;
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
   }
 
   .header-right {
-    right: 1rem;
-    gap: 1rem;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 250px;
+    height: 100vh;
+    background-color: #20558f;
+    flex-direction: column;
+    padding: 80px 2rem 2rem;
+    transition: right 0.3s ease;
+    gap: 2rem;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
   }
 
-  .mavs-logo {
-    height: 100px;
+  .header-right.menu-open {
+    right: 0;
   }
+
+  .menu-open ~ .hamburger .hamburger-line:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .menu-open ~ .hamburger .hamburger-line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .menu-open ~ .hamburger .hamburger-line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+
 }
 
 @media screen and (max-width: 480px) {
   .header {
-    padding: 0.5rem;
+    padding: 0rem;
   }
 
   .header-right {
-    right: 0.5rem;
-    gap: 0.5rem;
+    width: 200px;
+    padding: 80px 1.5rem 1.5rem;
   }
 
-  .mavs-logo {
-    height: 80px;
-  }
 }
 
 html, body {
