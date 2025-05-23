@@ -456,9 +456,21 @@
   margin-bottom: 0.5rem;
 }
 
+.note-header > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
 .note-date {
   color: #64748b;
   font-size: 0.85rem;
+}
+
+.scout-name {
+  color: #1d428a;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .delete-note-button {

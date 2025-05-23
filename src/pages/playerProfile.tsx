@@ -10,6 +10,7 @@ interface InternalNote {
   id: number;
   date: string;
   note: string;
+  scoutName: string;
 }
 
 // Helper function to combine season logs with the same year and team
@@ -90,6 +91,7 @@ const PlayerProfile = () => {
   const [internalNotes, setInternalNotes] = useState<InternalNote[]>([]);
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [newNote, setNewNote] = useState('');
+  const [scoutName, setScoutName] = useState('');
   const [showDraftComparison, setShowDraftComparison] = useState(false);
   const [draftClassAverages, setDraftClassAverages] = useState<SeasonLog | null>(null);
 
@@ -181,14 +183,16 @@ const PlayerProfile = () => {
   console.log('Current state:', { loading, error, player, stats });
 
   const handleAddNote = () => {
-    if (newNote.trim()) {
+    if (newNote.trim() && scoutName.trim()) {
       const note: InternalNote = {
         id: Date.now(),
         date: new Date().toLocaleDateString(),
-        note: newNote.trim()
+        note: newNote.trim(),
+        scoutName: scoutName.trim()
       };
       setInternalNotes(prev => [...prev, note]);
       setNewNote('');
+      setScoutName('');
       setIsAddingNote(false);
     }
   };
@@ -419,19 +423,33 @@ const PlayerProfile = () => {
               <div className="scouting-section">
                 <h3>Internal Scout Notes</h3>
                 {isAddingNote ? (
-                  <div className="note-form">
+                  <div className="note-form" style={{ width: '90%'}}>
+                    <input
+                      type="text"
+                      value={scoutName}
+                      onChange={(e) => setScoutName(e.target.value)}
+                      placeholder="Enter scout name..."
+                      className="note-textarea"
+                      style={{ 
+                        fontSize: '0.8rem', 
+                        fontFamily: 'Inter',
+                        marginBottom: '0.5rem',
+                        padding: '0.5rem'
+                      }}
+                    />
                     <textarea
                       value={newNote}
                       onChange={(e) => setNewNote(e.target.value)}
                       placeholder="Enter your scouting notes..."
                       rows={4}
                       className="note-textarea"
+                      style={{ fontSize: '0.8rem', fontFamily: 'Inter'}}
                     />
                     <div className="note-form-buttons">
                       <button 
                         className="save-note-button" 
                         onClick={handleAddNote}
-                        disabled={!newNote.trim()}
+                        disabled={!newNote.trim() || !scoutName.trim()}
                       >
                         Save Note
                       </button>
@@ -440,6 +458,7 @@ const PlayerProfile = () => {
                         onClick={() => {
                           setIsAddingNote(false);
                           setNewNote('');
+                          setScoutName('');
                         }}
                       >
                         Cancel
@@ -453,7 +472,10 @@ const PlayerProfile = () => {
                   {internalNotes.map(note => (
                     <div key={note.id} className="internal-note">
                       <div className="note-header">
-                        <span className="note-date">{note.date}</span>
+                        <div>
+                          <span className="scout-name">{note.scoutName}</span>
+                          <span className="note-date">{note.date}</span>
+                        </div>
                         <button 
                           className="delete-note-button"
                           onClick={() => handleDeleteNote(note.id)}
@@ -461,7 +483,7 @@ const PlayerProfile = () => {
                           ×
                         </button>
                       </div>
-                      <p className="note-content">{note.note}</p>
+                      <p className="note-content" style={{ lineBreak: 'anywhere' }}>{note.note}</p>
                     </div>
                   ))}
                 </div>
