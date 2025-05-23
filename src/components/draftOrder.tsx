@@ -57,7 +57,7 @@ const draftOrder: React.FC = () => (
               opacity: '0',
               marginTop: '0',
             }}>
-              <p style={{ margin: '0 0 0.5rem 0', fontSize: '0.9rem', color: '#666' }}>
+              <p style={{ margin: '0 0 0.5rem 0', fontSize: '0.8rem', color: '#333'}}>
                 <strong>GM:</strong> {pick.gm}
               </p>
               <a 
@@ -67,7 +67,7 @@ const draftOrder: React.FC = () => (
                 style={{
                   color: '#0066cc',
                   textDecoration: 'none',
-                  fontSize: '0.9rem',
+                  fontSize: '0.8rem',
                 }}
               >
                 Front Office Information

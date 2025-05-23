@@ -110,7 +110,7 @@ body {
 
 .draft-order-panel h2, 
 .big-board-panel h2 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   color: #12508b;
@@ -125,6 +125,30 @@ body {
   display: flex;
   flex-direction: column;
   min-width: 350px;
+}
+
+.search-container {
+  margin-bottom: 1rem;
+  width: 94%;
+}
+
+.player-search-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e3e8f0;
+  border-radius: 10px;
+  font-size: 1rem;
+  color: #1a2233;
+  transition: border-color 0.2s ease;
+  outline: none;
+}
+
+.player-search-input:focus {
+  border-color: #12508b;
+}
+
+.player-search-input::placeholder {
+  color: #94a3b8;
 }
 
 .big-board-list {
@@ -287,7 +311,7 @@ draft-order-panel {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 600px;
+  max-height: 720px;
   overflow-y: auto;
 }
 

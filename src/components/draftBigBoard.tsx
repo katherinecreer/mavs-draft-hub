@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Player } from '../services/playerService';
 import { playerService } from '../services/playerService';
 
@@ -8,8 +8,13 @@ interface draftBigBoardProps {
 }
 
 const draftBigBoard: React.FC<draftBigBoardProps> = ({ players, handlePlayerClick }) => {
-  // Sort players by ADP and take first 1000
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Sort players by ADP and filter based on search term
   const displayedPlayers = [...players]
+    .filter(player => 
+      player.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
     .sort((a, b) => {
       const adpA = playerService.getPlayerAverageRanking(a.playerId);
       const adpB = playerService.getPlayerAverageRanking(b.playerId);
@@ -26,7 +31,15 @@ const draftBigBoard: React.FC<draftBigBoardProps> = ({ players, handlePlayerClic
   return (
     <section className="big-board-panel">
       <h2>Available Players</h2>
-      <div>Search Needs to be Here</div>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search players..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="player-search-input"
+        />
+      </div>
       <br />
       <div className="big-board-list">
         <div className="big-board-header">
