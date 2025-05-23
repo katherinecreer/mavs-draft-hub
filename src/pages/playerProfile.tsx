@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { playerService } from '../services/playerService';
 import type { Player, SeasonLog, ScoutingReport, ScoutRanking } from '../services/playerService';
+import { AiOutlineInfoCircle } from 'react-icons/ai';
 import '../styles/playerProfile.css';
 
 interface InternalNote {
@@ -87,6 +88,8 @@ const PlayerProfile = () => {
   const [internalNotes, setInternalNotes] = useState<InternalNote[]>([]);
   const [isAddingNote, setIsAddingNote] = useState(false);
   const [newNote, setNewNote] = useState('');
+  const [showDraftComparison, setShowDraftComparison] = useState(false);
+  const [draftClassAverages, setDraftClassAverages] = useState<SeasonLog | null>(null);
 
   useEffect(() => {
     console.log('Effect triggered with playerId:', playerId);
@@ -141,6 +144,37 @@ const PlayerProfile = () => {
 
     fetchPlayerData();
   }, [playerId]);
+
+  useEffect(() => {
+    if (showDraftComparison && stats.length > 0) {
+      try {
+        const lastSeason = Math.max(...stats.map(s => s.Season));
+        const averages = playerService.getDraftClassAverages(lastSeason);
+        setDraftClassAverages(averages);
+      } catch (err) {
+        console.error('Error getting draft class averages:', err);
+        setDraftClassAverages(null);
+      }
+    }
+  }, [showDraftComparison, stats]);
+
+  const getComparisonClass = (stat: keyof SeasonLog, playerStat: number, avgStat: number): string => {
+    if (typeof playerStat !== 'number' || typeof avgStat !== 'number') return '';
+    
+    // For most stats, higher is better
+    let betterIfHigher = true;
+    
+    // For turnovers and personal fouls, lower is better
+    if (stat === 'TOV' || stat === 'PF') {
+      betterIfHigher = false;
+    }
+    
+    const difference = ((playerStat - avgStat) / avgStat) * 100;
+    const threshold = 10; // 10% difference threshold
+    
+    if (Math.abs(difference) < threshold) return 'neutral';
+    return (betterIfHigher ? difference > 0 : difference < 0) ? 'above-average' : 'below-average';
+  };
 
   console.log('Current state:', { loading, error, player, stats });
 
@@ -221,7 +255,7 @@ const PlayerProfile = () => {
               <p><strong>Current Team:</strong> {player.currentTeam} ({player.league})</p>
               <p><strong>Height:</strong> {Math.floor(player.height / 12)}'{player.height % 12}"</p>
               <p><strong>Weight:</strong> {player.weight} lbs</p>
-              <button>Advanced Measurements</button>
+              <button className="back-button">Advanced Measurements</button>
               <p><strong>Birth Date:</strong> {new Date(player.birthDate).toLocaleDateString()}</p>
               <p><strong>Nationality:</strong> {player.nationality}</p>
               <p><strong>Hometown:</strong> {player.homeTown}, {player.homeState || player.homeCountry}</p>
@@ -234,7 +268,9 @@ const PlayerProfile = () => {
           <div className="player-stats">
             <div className="stats-card">
               <h2>{player.name.split(' ').slice(-1)[0]}'s Career Statistics</h2>
-              <button>Compare Last Season to Draft Class Average</button>
+              <button onClick={() => setShowDraftComparison(!showDraftComparison)}>
+                {showDraftComparison ? 'Hide Draft Class Comparison' : 'Compare Last Season to Draft Class Average'}
+              </button>
               <br />
               <br />
               <div className="stats-table">
@@ -257,7 +293,9 @@ const PlayerProfile = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {stats.map((stat, index) => (
+                    {stats
+                      .filter(stat => !showDraftComparison || stat.Season === 2025)
+                      .map((stat, index) => (
                       <tr key={index}>
                         <td>{stat.Season} ({stat.Team})</td>
                         <td>{stat.GP}</td>
@@ -274,6 +312,64 @@ const PlayerProfile = () => {
                         <td>{stat.PTS?.toFixed(1)}</td>
                       </tr>
                     ))}
+                    {showDraftComparison && draftClassAverages && stats.length > 0 && (
+                      <tr className="draft-class-average-row">
+                        <td>{draftClassAverages.Team}</td>
+                        <td>{draftClassAverages.GP}</td>
+                        <td>{draftClassAverages.MP?.toFixed(1)}</td>
+                        <td>{draftClassAverages['FG%']?.toFixed(1)}</td>
+                        <td>{draftClassAverages['3P%']?.toFixed(1)}</td>
+                        <td>{draftClassAverages.FTP?.toFixed(1)}</td>
+                        <td>{draftClassAverages.TRB?.toFixed(1)}</td>
+                        <td>{draftClassAverages.AST?.toFixed(1)}</td>
+                        <td>{draftClassAverages.BLK?.toFixed(1)}</td>
+                        <td>{draftClassAverages.STL?.toFixed(1)}</td>
+                        <td>{draftClassAverages.PF?.toFixed(1)}</td>
+                        <td>{draftClassAverages.TOV?.toFixed(1)}</td>
+                        <td>{draftClassAverages.PTS?.toFixed(1)}</td>
+                      </tr>
+                    )}
+                    {showDraftComparison && draftClassAverages && stats.length > 0 && (
+                      <tr className="comparison-row">
+                        <td>Comparison</td>
+                        <td className={getComparisonClass('GP', stats[0].GP, draftClassAverages.GP)}>
+                          {((stats[0].GP - draftClassAverages.GP) / draftClassAverages.GP * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('MP', stats[0].MP, draftClassAverages.MP)}>
+                          {((stats[0].MP - draftClassAverages.MP) / draftClassAverages.MP * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('FG%', stats[0]['FG%'], draftClassAverages['FG%'])}>
+                          {(stats[0]['FG%'] - draftClassAverages['FG%']).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('3P%', stats[0]['3P%'], draftClassAverages['3P%'])}>
+                          {(stats[0]['3P%'] - draftClassAverages['3P%']).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('FTP', stats[0].FTP, draftClassAverages.FTP)}>
+                          {(stats[0].FTP - draftClassAverages.FTP).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('TRB', stats[0].TRB, draftClassAverages.TRB)}>
+                          {((stats[0].TRB - draftClassAverages.TRB) / draftClassAverages.TRB * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('AST', stats[0].AST, draftClassAverages.AST)}>
+                          {((stats[0].AST - draftClassAverages.AST) / draftClassAverages.AST * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('BLK', stats[0].BLK, draftClassAverages.BLK)}>
+                          {((stats[0].BLK - draftClassAverages.BLK) / draftClassAverages.BLK * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('STL', stats[0].STL, draftClassAverages.STL)}>
+                          {((stats[0].STL - draftClassAverages.STL) / draftClassAverages.STL * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('PF', stats[0].PF, draftClassAverages.PF)}>
+                          {((stats[0].PF - draftClassAverages.PF) / draftClassAverages.PF * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('TOV', stats[0].TOV, draftClassAverages.TOV)}>
+                          {((stats[0].TOV - draftClassAverages.TOV) / draftClassAverages.TOV * 100).toFixed(1)}%
+                        </td>
+                        <td className={getComparisonClass('PTS', stats[0].PTS, draftClassAverages.PTS)}>
+                          {((stats[0].PTS - draftClassAverages.PTS) / draftClassAverages.PTS * 100).toFixed(1)}%
+                        </td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
@@ -350,18 +446,28 @@ const PlayerProfile = () => {
                 )}
               </div>
               <div className="scouting-section">
-                <h3>Recent Ratings</h3>
+                <div className="ratings-header">
+                  <div className="ratings-title-container">
+                    <h3>Recent Ratings</h3>
+                    <div className="info-tooltip-container">
+                      <AiOutlineInfoCircle className="info-icon" />
+                      <div className="info-tooltip">
+                        <p>The average rank represents the mean of all submitted rankings for each prospect.</p>
+                        <p>The <span className="ranking-trend trend-up">↑</span> and <span className="ranking-trend trend-down">↓</span> indicate whether a scout ranks a player significantly higher or lower than the overall average.</p>
+                        <p>Not all scouts rank every player, so unranked entries are excluded from the average and are handled accordingly in the display.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
                 <div className="rankings-grid">
                   {scoutRankings && (
                     <>
-                      {player && (
-                        <div className="ranking-item">
-                          <span className="scout-name">Average Rank:</span>
-                          <span className="rank-value" style={{ paddingRight: '15px' }}>
-                            {playerService.getPlayerAverageRanking(player.playerId) ?? '-'}
-                          </span>
-                        </div>
-                      )}
+                      <div className="ranking-item">
+                        <span className="scout-name">Average Rank:</span>
+                        <span className="rank-value">
+                          {playerService.getPlayerAverageRanking(player.playerId) ?? '-'}
+                        </span>
+                      </div>
                       <div className="ranking-item">
                         <span className="scout-name">ESPN:</span>
                         <span className="rank-value">

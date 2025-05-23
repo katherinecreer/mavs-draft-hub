@@ -205,5 +205,95 @@ export const playerService = {
   // Get all scout rankings
   getAllScoutRankings(): ScoutRanking[] {
     return playerData.scoutRankings || [];
+  },
+
+  // Get all season logs
+  getAllSeasonLogs(): SeasonLog[] {
+    return playerData.seasonLogs || [];
+  },
+
+  // Calculate draft class averages for a specific season
+  getDraftClassAverages(season: number): SeasonLog {
+    const seasonLogs = this.getAllSeasonLogs().filter(log => 
+      log.Season === season && 
+      log.League === 'NCAA' // Only include NCAA stats for fair comparison
+    );
+
+    if (seasonLogs.length === 0) {
+      throw new Error(`No season logs found for season ${season}`);
+    }
+
+    const totalLogs = seasonLogs.length;
+    const averages: SeasonLog = {
+      playerId: -1, // Use -1 to indicate this is an average
+      Season: season,
+      Team: 'Draft Class Average',
+      League: 'NCAA',
+      GP: 0,
+      GS: 0,
+      MP: 0,
+      FGM: 0,
+      FGA: 0,
+      'FG%': 0,
+      FG2M: 0,
+      FG2A: 0,
+      'FG2%': 0,
+      'eFG%': 0,
+      '3PM': 0,
+      '3PA': 0,
+      '3P%': 0,
+      FT: 0,
+      FTA: 0,
+      FTP: 0,
+      ORB: 0,
+      DRB: 0,
+      TRB: 0,
+      AST: 0,
+      STL: 0,
+      BLK: 0,
+      TOV: 0,
+      PF: 0,
+      PTS: 0,
+      age: 'Average',
+      w: 0,
+      l: 0
+    };
+
+    // Sum up all stats
+    seasonLogs.forEach(log => {
+      averages.GP += log.GP;
+      averages.GS += log.GS;
+      averages.MP += log.MP;
+      averages.FGM += log.FGM;
+      averages.FGA += log.FGA;
+      averages['3PM'] += log['3PM'];
+      averages['3PA'] += log['3PA'];
+      averages.FT += log.FT;
+      averages.FTA += log.FTA;
+      averages.TRB += log.TRB;
+      averages.AST += log.AST;
+      averages.BLK += log.BLK;
+      averages.STL += log.STL;
+      averages.PF += log.PF;
+      averages.TOV += log.TOV;
+      averages.PTS += log.PTS;
+      averages.w += log.w;
+      averages.l += log.l;
+    });
+
+    // Calculate averages
+    (Object.keys(averages) as Array<keyof SeasonLog>).forEach(key => {
+      const value = averages[key];
+      if (typeof value === 'number' && key !== 'playerId' && key !== 'Season' && key !== 'age') {
+        (averages[key] as number) = Number((value / totalLogs).toFixed(1));
+      }
+    });
+
+    // Calculate percentages
+    averages['FG%'] = Number(((averages.FGM / averages.FGA) * 100).toFixed(1));
+    averages['3P%'] = Number(((averages['3PM'] / averages['3PA']) * 100).toFixed(1));
+    averages.FTP = Number(((averages.FT / averages.FTA) * 100).toFixed(1));
+
+    return averages;
   }
 }; 
