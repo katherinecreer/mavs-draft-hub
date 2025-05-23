@@ -5,7 +5,7 @@ import DraftHub from './pages/draftHub';
 import PlayerProfile from './pages/playerProfile';
 import WelcomeLogin from './pages/welcomeLogin';
 import MockDraft from './pages/mockDraft';
-
+import MavsFooter from './components/mavsFooter';
 function App() {
   return (
     <Router>
@@ -16,6 +16,7 @@ function App() {
         <Route path="/mock-draft" element={<MockDraft />} />
         <Route path="/player/:playerId" element={<PlayerProfile />} />
       </Routes>
+      <MavsFooter />
     </Router>
   );
 }

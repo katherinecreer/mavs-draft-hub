@@ -336,28 +336,30 @@ const PlayerProfile = () => {
             <div className="player-basic-info">
               <h1>{player.name}</h1>
               <p><strong>Current Team:</strong> {player.currentTeam} ({player.league})</p>
-              <div className="measurements-row">
-                <div className="measurements-info">
-                  <p style={{ marginRight: '0rem' }}><strong>Height/Weight:</strong> {Math.floor(player.height / 12)}'{player.height % 12}" / {player.weight} lbs</p>
-                </div>
-                <button 
-                  className="back-button"
-                  onClick={() => setShowMeasurements(true)}
-                  style={{ 
-                    padding: '0.25rem',
-                    minWidth: '24px',
-                    height: '24px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    marginRight: '14rem',
-                    scale: '0.75'
-                  }}
-                >
-                  <AiOutlinePlus size={16} />
-                </button>
-              </div>
+              <p><strong>Height/Weight:</strong> {Math.floor(player.height / 12)}'{player.height % 12}" / {player.weight} lbs</p>
               <p><strong>Birth Date:</strong> {new Date(player.birthDate).toLocaleDateString()}</p>
+              <p><strong>Nationality:</strong> {player.nationality}</p>
+              <p><strong>Hometown:</strong> {player.homeTown}, {player.homeState || player.homeCountry}</p>
+              {player.highSchool && (
+                <p><strong>High School:</strong> {player.highSchool}, {player.highSchoolState}</p>
+              )}
+              <button 
+                className="back-button"
+                onClick={() => setShowMeasurements(true)}
+                style={{ 
+                  padding: '0.75rem',
+                  minWidth: '34px',
+                  height: '28px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  marginTop: '0.5rem',
+                  marginLeft: '-15rem',
+                  scale: '0.75'
+                }} 
+              >
+                <AiOutlinePlus size={16} /> Advanced Measurements
+              </button>
               {/* Measurements Modal */}
               {showMeasurements && measurements && (
                 <div className="modal-overlay">
@@ -431,39 +433,67 @@ const PlayerProfile = () => {
                   </div>
                 </div>
               )}
-              <p><strong>Nationality:</strong> {player.nationality}</p>
-              <p><strong>Hometown:</strong> {player.homeTown}, {player.homeState || player.homeCountry}</p>
-              {player.highSchool && (
-                <p><strong>High School:</strong> {player.highSchool}, {player.highSchoolState}</p>
-              )}
             </div>
           </div>
 
           <div className="player-stats">
-            <div className="stats-card">
-              <h2>{player.name.split(' ').slice(-1)[0]}'s Career Statistics</h2>
-              <button onClick={() => setShowDraftComparison(!showDraftComparison)}>
-                {showDraftComparison ? 'Hide Draft Class Comparison' : 'Compare Last Season to Draft Class Average'}
-              </button>
-              <br />
-              <br />
-              <div className="stats-table">
-                <table>
+            <div className="stats-card" style={{
+              marginTop: '2rem',
+              padding: '1rem',
+              backgroundColor: 'white',
+              borderRadius: '8px',
+              boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)'
+            }}>
+              <div className="stats-header" style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginBottom: '1.5rem',
+                padding: '0 0.5rem'
+              }}>
+                <h2 style={{
+                  fontSize: '1.25rem',
+                  fontWeight: 600,
+                  color: '#1a1a1a',
+                  margin: 0
+                }}>{player.name.split(' ').slice(-1)[0]}'s Career Statistics</h2>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <button 
+                    onClick={() => setShowDraftComparison(!showDraftComparison)}
+                    style={{
+                      padding: '0.5rem 1rem',
+                      backgroundColor: '#1e3a8a',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '6px',
+                      cursor: 'pointer',
+                      fontSize: '0.875rem',
+                      transition: 'background-color 0.2s',
+                      whiteSpace: 'nowrap',
+                      minWidth: '100px'
+                    }}
+                  >
+                    {showDraftComparison ? 'Hide Comparison' : 'Compare to Draft Class'}
+                  </button>
+                </div>
+              </div>
+              <div className="stats-table-container">
+                <table className="stats-table">
                   <thead>
                     <tr>
-                      <th>STATS</th>
-                      <th>GP</th>
-                      <th>MIN</th>
-                      <th>FG%</th>
-                      <th>3P%</th>
-                      <th>FT%</th>
-                      <th>REB</th>
-                      <th>AST</th>
-                      <th>BLK</th>
-                      <th>STL</th>
-                      <th>PF</th>
-                      <th>TO</th>
-                      <th>PTS</th>
+                      <th className="stats-table-header">STATS</th>
+                      <th className="stats-table-header">GP</th>
+                      <th className="stats-table-header">MIN</th>
+                      <th className="stats-table-header">FG%</th>
+                      <th className="stats-table-header">3P%</th>
+                      <th className="stats-table-header">FT%</th>
+                      <th className="stats-table-header">REB</th>
+                      <th className="stats-table-header">AST</th>
+                      <th className="stats-table-header">BLK</th>
+                      <th className="stats-table-header">STL</th>
+                      <th className="stats-table-header">PF</th>
+                      <th className="stats-table-header">TO</th>
+                      <th className="stats-table-header">PTS</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -471,75 +501,75 @@ const PlayerProfile = () => {
                       .filter(stat => !showDraftComparison || stat.Season === 2025)
                       .map((stat, index) => (
                       <tr key={index}>
-                        <td>{stat.Season} ({stat.Team})</td>
-                        <td>{stat.GP}</td>
-                        <td>{stat.MP?.toFixed(1)}</td>
-                        <td>{stat['FG%']?.toFixed(1)}</td>
-                        <td>{stat['3P%']?.toFixed(1)}</td>
-                        <td>{stat.FTP?.toFixed(1)}</td>
-                        <td>{stat.TRB?.toFixed(1)}</td>
-                        <td>{stat.AST?.toFixed(1)}</td>
-                        <td>{stat.BLK?.toFixed(1)}</td>
-                        <td>{stat.STL?.toFixed(1)}</td>
-                        <td>{stat.PF?.toFixed(1)}</td>
-                        <td>{stat.TOV?.toFixed(1)}</td>
-                        <td>{stat.PTS?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.Season} ({stat.Team})</td>
+                        <td className="stats-table-cell">{stat.GP}</td>
+                        <td className="stats-table-cell">{stat.MP?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat['FG%']?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat['3P%']?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.FTP?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.TRB?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.AST?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.BLK?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.STL?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.PF?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.TOV?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{stat.PTS?.toFixed(1)}</td>
                       </tr>
                     ))}
                     {showDraftComparison && draftClassAverages && stats.length > 0 && (
                       <tr className="draft-class-average-row">
-                        <td>{draftClassAverages.Team}</td>
-                        <td>{draftClassAverages.GP}</td>
-                        <td>{draftClassAverages.MP?.toFixed(1)}</td>
-                        <td>{draftClassAverages['FG%']?.toFixed(1)}</td>
-                        <td>{draftClassAverages['3P%']?.toFixed(1)}</td>
-                        <td>{draftClassAverages.FTP?.toFixed(1)}</td>
-                        <td>{draftClassAverages.TRB?.toFixed(1)}</td>
-                        <td>{draftClassAverages.AST?.toFixed(1)}</td>
-                        <td>{draftClassAverages.BLK?.toFixed(1)}</td>
-                        <td>{draftClassAverages.STL?.toFixed(1)}</td>
-                        <td>{draftClassAverages.PF?.toFixed(1)}</td>
-                        <td>{draftClassAverages.TOV?.toFixed(1)}</td>
-                        <td>{draftClassAverages.PTS?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.Team}</td>
+                        <td className="stats-table-cell">{draftClassAverages.GP}</td>
+                        <td className="stats-table-cell">{draftClassAverages.MP?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages['FG%']?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages['3P%']?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.FTP?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.TRB?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.AST?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.BLK?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.STL?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.PF?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.TOV?.toFixed(1)}</td>
+                        <td className="stats-table-cell">{draftClassAverages.PTS?.toFixed(1)}</td>
                       </tr>
                     )}
                     {showDraftComparison && draftClassAverages && stats.length > 0 && (
                       <tr className="comparison-row">
-                        <td>Comparison</td>
-                        <td className={getComparisonClass('GP', stats[0].GP, draftClassAverages.GP)}>
+                        <td className="stats-table-cell">Comparison</td>
+                        <td className={`stats-table-cell ${getComparisonClass('GP', stats[0].GP, draftClassAverages.GP)}`}>
                           {((stats[0].GP - draftClassAverages.GP) / draftClassAverages.GP * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('MP', stats[0].MP, draftClassAverages.MP)}>
+                        <td className={`stats-table-cell ${getComparisonClass('MP', stats[0].MP, draftClassAverages.MP)}`}>
                           {((stats[0].MP - draftClassAverages.MP) / draftClassAverages.MP * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('FG%', stats[0]['FG%'], draftClassAverages['FG%'])}>
+                        <td className={`stats-table-cell ${getComparisonClass('FG%', stats[0]['FG%'], draftClassAverages['FG%'])}`}>
                           {(stats[0]['FG%'] - draftClassAverages['FG%']).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('3P%', stats[0]['3P%'], draftClassAverages['3P%'])}>
+                        <td className={`stats-table-cell ${getComparisonClass('3P%', stats[0]['3P%'], draftClassAverages['3P%'])}`}>
                           {(stats[0]['3P%'] - draftClassAverages['3P%']).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('FTP', stats[0].FTP, draftClassAverages.FTP)}>
+                        <td className={`stats-table-cell ${getComparisonClass('FTP', stats[0].FTP, draftClassAverages.FTP)}`}>
                           {(stats[0].FTP - draftClassAverages.FTP).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('TRB', stats[0].TRB, draftClassAverages.TRB)}>
+                        <td className={`stats-table-cell ${getComparisonClass('TRB', stats[0].TRB, draftClassAverages.TRB)}`}>
                           {((stats[0].TRB - draftClassAverages.TRB) / draftClassAverages.TRB * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('AST', stats[0].AST, draftClassAverages.AST)}>
+                        <td className={`stats-table-cell ${getComparisonClass('AST', stats[0].AST, draftClassAverages.AST)}`}>
                           {((stats[0].AST - draftClassAverages.AST) / draftClassAverages.AST * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('BLK', stats[0].BLK, draftClassAverages.BLK)}>
+                        <td className={`stats-table-cell ${getComparisonClass('BLK', stats[0].BLK, draftClassAverages.BLK)}`}>
                           {((stats[0].BLK - draftClassAverages.BLK) / draftClassAverages.BLK * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('STL', stats[0].STL, draftClassAverages.STL)}>
+                        <td className={`stats-table-cell ${getComparisonClass('STL', stats[0].STL, draftClassAverages.STL)}`}>
                           {((stats[0].STL - draftClassAverages.STL) / draftClassAverages.STL * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('PF', stats[0].PF, draftClassAverages.PF)}>
+                        <td className={`stats-table-cell ${getComparisonClass('PF', stats[0].PF, draftClassAverages.PF)}`}>
                           {((stats[0].PF - draftClassAverages.PF) / draftClassAverages.PF * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('TOV', stats[0].TOV, draftClassAverages.TOV)}>
+                        <td className={`stats-table-cell ${getComparisonClass('TOV', stats[0].TOV, draftClassAverages.TOV)}`}>
                           {((stats[0].TOV - draftClassAverages.TOV) / draftClassAverages.TOV * 100).toFixed(1)}%
                         </td>
-                        <td className={getComparisonClass('PTS', stats[0].PTS, draftClassAverages.PTS)}>
+                        <td className={`stats-table-cell ${getComparisonClass('PTS', stats[0].PTS, draftClassAverages.PTS)}`}>
                           {((stats[0].PTS - draftClassAverages.PTS) / draftClassAverages.PTS * 100).toFixed(1)}%
                         </td>
                       </tr>
@@ -556,10 +586,25 @@ const PlayerProfile = () => {
 
         <div className="profile-right-column">
           <div className="scouting-reports">
-            <h2>Scouting Reports</h2>
+            <h2 style={{
+              fontSize: '1.25rem',
+              fontWeight: 600,
+              color: '#1a1a1a',
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              Scouting Reports
+            </h2>
             <div className="scouting-content">
               <div className="scouting-section">
-                <h3>Internal Scout Notes</h3>
+                <Typography variant="h6" sx={{ 
+                  color: '#1a1a1a', 
+                  mb: 2, 
+                  fontWeight: 500,
+                  textAlign: 'center'
+                }}>
+                  Internal Scout Notes
+                </Typography>
                 {isAddingNote ? (
                   <div className="note-form" style={{ width: '90%'}}>
                     <input
@@ -611,8 +656,12 @@ const PlayerProfile = () => {
                     <div key={note.id} className="internal-note">
                       <div className="note-header">
                         <div>
-                          <span className="scout-name">{note.scoutName}</span>
-                          <span className="note-date">{note.date}</span>
+                          <Typography variant="subtitle2" sx={{ color: '#1d428a', fontWeight: 500 }}>
+                            {note.scoutName}
+                          </Typography>
+                          <Typography variant="caption" sx={{ color: '#64748b' }}>
+                            {note.date}
+                          </Typography>
                         </div>
                         <button 
                           className="delete-note-button"
@@ -621,7 +670,9 @@ const PlayerProfile = () => {
                           ×
                         </button>
                       </div>
-                      <p className="note-content" style={{ lineBreak: 'anywhere' }}>{note.note}</p>
+                      <Typography variant="body2" className="note-content" sx={{ whiteSpace: 'pre-wrap', color: '#333' }}>
+                        {note.note}
+                      </Typography>
                     </div>
                   ))}
                 </div>
@@ -635,7 +686,6 @@ const PlayerProfile = () => {
                     display: 'none',
                   },
                   borderRadius: '8px',
-                  fontSize: '1rem',
                   my: 2
                 }}
               >
@@ -644,26 +694,43 @@ const PlayerProfile = () => {
                   sx={{
                     padding: '1rem',
                     '& .MuiAccordionSummary-content': {
-                      margin: 0
+                      margin: 0,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      width: '100%'
                     },
                     '& .MuiAccordionSummary-expandIconWrapper': {
-                      color: 'rgba(0, 0, 0, 0.54)'
+                      color: 'rgba(0, 0, 0, 0.54)',
+                      position: 'absolute',
+                      right: '1rem'
                     }
                   }}
                 >
-                  <h3 style={{ margin: 0, fontSize: '1.5rem', color: '#27374D' }}>External Scout Notes</h3>
+                  <Typography variant="h6" sx={{ 
+                    color: '#1a1a1a', 
+                    fontWeight: 500, 
+                    m: 0
+                  }}>
+                    External Scout Notes
+                  </Typography>
                 </AccordionSummary>
                 <AccordionDetails sx={{ padding: '0 1rem 1rem 1rem' }}>
                   {scoutingReports.length > 0 ? (
                     scoutingReports.map((report, index) => (
                       <div key={report.reportId} className="scout-report">
-                        <h4>Report from {report.scout}</h4>
-                        <p>{report.report}</p>
+                        <Typography variant="subtitle1" sx={{ color: '#1d428a', fontWeight: 500, mb: 1 }}>
+                          Report from {report.scout}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#333' }}>
+                          {report.report}
+                        </Typography>
                         {index < scoutingReports.length - 1 && <hr />}
                       </div>
                     ))
                   ) : (
-                    <p>No scouting reports available</p>
+                    <Typography variant="body2" sx={{ color: '#666' }}>
+                      No scouting reports available
+                    </Typography>
                   )}
                 </AccordionDetails>
               </Accordion>
@@ -671,13 +738,27 @@ const PlayerProfile = () => {
               <div className="scouting-section">
                 <div className="ratings-header">
                   <div className="ratings-title-container">
-                    <h3>Recent Ratings</h3>
+                    <Typography variant="h6" sx={{ 
+                      color: '#1a1a1a', 
+                      fontWeight: 500, 
+                      m: 0,
+                      textAlign: 'center',
+                      width: '100%'
+                    }}>
+                      Recent Ratings
+                    </Typography>
                     <div className="info-tooltip-container">
                       <AiOutlineInfoCircle className="info-icon" />
                       <div className="info-tooltip">
-                        <p>The average rank represents the mean of all submitted rankings for each prospect.</p>
-                        <p>The <span className="ranking-trend trend-up">↑</span> and <span className="ranking-trend trend-down">↓</span> indicate whether a scout ranks a player significantly higher or lower than the overall average.</p>
-                        <p>Not all scouts rank every player, so unranked entries are excluded from the average and are handled accordingly in the display.</p>
+                        <Typography variant="body2" sx={{ color: '#333', py: 0.5 }}>
+                          The average rank represents the mean of all submitted rankings for each prospect.
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#333', py: 0.5, borderTop: '1px solid #eee', borderBottom: '1px solid #eee' }}>
+                          The <span className="ranking-trend trend-up">↑</span> and <span className="ranking-trend trend-down">↓</span> indicate whether a scout ranks a player significantly higher or lower than the overall average.
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#333', py: 0.5 }}>
+                          Not all scouts rank every player, so unranked entries are excluded from the average and are handled accordingly in the display.
+                        </Typography>
                       </div>
                     </div>
                   </div>
@@ -686,13 +767,17 @@ const PlayerProfile = () => {
                   {scoutRankings && (
                     <>
                       <div className="ranking-item">
-                        <span className="scout-name">Average Rank:</span>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }} className="scout-name">
+                          Average Rank:
+                        </Typography>
                         <span className="rank-value">
                           {playerService.getPlayerAverageRanking(player.playerId) ?? '-'}
                         </span>
                       </div>
                       <div className="ranking-item">
-                        <span className="scout-name">ESPN:</span>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }} className="scout-name">
+                          ESPN:
+                        </Typography>
                         <span className="rank-value">
                           {scoutRankings["ESPN Rank"] ?? '-'}
                           {scoutRankings["ESPN Rank"] && player && (
@@ -707,7 +792,9 @@ const PlayerProfile = () => {
                         </span>
                       </div>
                       <div className="ranking-item">
-                        <span className="scout-name">Sam Vecenie:</span>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }} className="scout-name">
+                          Sam Vecenie:
+                        </Typography>
                         <span className="rank-value">
                           {scoutRankings["Sam Vecenie Rank"] ?? '-'}
                           {scoutRankings["Sam Vecenie Rank"] && player && (
@@ -722,7 +809,9 @@ const PlayerProfile = () => {
                         </span>
                       </div>
                       <div className="ranking-item">
-                        <span className="scout-name">Kevin O'Connor:</span>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }} className="scout-name">
+                          Kevin O'Connor:
+                        </Typography>
                         <span className="rank-value">
                           {scoutRankings["Kevin O'Connor Rank"] ?? '-'}
                           {scoutRankings["Kevin O'Connor Rank"] && player && (
@@ -737,7 +826,9 @@ const PlayerProfile = () => {
                         </span>
                       </div>
                       <div className="ranking-item">
-                        <span className="scout-name">Kyle Boone:</span>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }} className="scout-name">
+                          Kyle Boone:
+                        </Typography>
                         <span className="rank-value">
                           {scoutRankings["Kyle Boone Rank"] ?? '-'}
                           {scoutRankings["Kyle Boone Rank"] && player && (
@@ -752,7 +843,9 @@ const PlayerProfile = () => {
                         </span>
                       </div>
                       <div className="ranking-item">
-                        <span className="scout-name">Gary Parrish:</span>
+                        <Typography variant="body2" sx={{ color: '#666', fontWeight: 500 }} className="scout-name">
+                          Gary Parrish:
+                        </Typography>
                         <span className="rank-value">
                           {scoutRankings["Gary Parrish Rank"] ?? '-'}
                           {scoutRankings["Gary Parrish Rank"] && player && (
@@ -768,7 +861,11 @@ const PlayerProfile = () => {
                       </div>
                     </>
                   )}
-                  {!scoutRankings && <p>No rankings available</p>}
+                  {!scoutRankings && (
+                    <Typography variant="body2" sx={{ color: '#666' }}>
+                      No rankings available
+                    </Typography>
+                  )}
                 </div>
               </div>
             </div>
@@ -777,6 +874,6 @@ const PlayerProfile = () => {
       </div>
     </div>
   );
-};
+}
 
-export default PlayerProfile; 
+export default PlayerProfile;
