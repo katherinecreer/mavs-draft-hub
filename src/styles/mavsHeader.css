@@ -14,6 +14,29 @@
   position: relative;
 }
 
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #002B5E;
+  border-top: 0.25px solid #B8C4CA;
+}
+
+.nav-container {
+  position: absolute;
+  bottom: -40px;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
 .header > div:first-child {
   position: absolute;
   left: 20px;
@@ -140,4 +163,33 @@
 html, body {
   margin: 0;
   padding: 0;
+}
+
+.drawer-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.drawer-content h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.drawer-link {
+  color: white;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.2s ease;
+}
+
+.drawer-link:hover {
+  color: #B8C4CA;
 } 

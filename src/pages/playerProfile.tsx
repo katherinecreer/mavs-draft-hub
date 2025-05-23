@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { playerService } from '../services/playerService';
 import type { Player, SeasonLog, ScoutingReport, ScoutRanking, Measurement } from '../services/playerService';
 import { AiOutlineInfoCircle, AiOutlinePlus } from 'react-icons/ai';
-import GamesPlayed from '../components/GamesPlayed';
+import GamesPlayed from '../components/gamesPlayed';
 import '../styles/playerProfile.css';
 import { 
   Breadcrumbs, 
