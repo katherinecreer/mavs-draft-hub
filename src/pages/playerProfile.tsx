@@ -1,8 +1,8 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { playerService } from '../services/playerService';
-import type { Player, SeasonLog, ScoutingReport, ScoutRanking } from '../services/playerService';
-import { AiOutlineInfoCircle } from 'react-icons/ai';
+import type { Player, SeasonLog, ScoutingReport, ScoutRanking, Measurement } from '../services/playerService';
+import { AiOutlineInfoCircle, AiOutlinePlus } from 'react-icons/ai';
 import GamesPlayed from '../components/GamesPlayed';
 import '../styles/playerProfile.css';
 
@@ -94,6 +94,8 @@ const PlayerProfile = () => {
   const [scoutName, setScoutName] = useState('');
   const [showDraftComparison, setShowDraftComparison] = useState(false);
   const [draftClassAverages, setDraftClassAverages] = useState<SeasonLog | null>(null);
+  const [measurements, setMeasurements] = useState<Measurement | undefined>(undefined);
+  const [showMeasurements, setShowMeasurements] = useState(false);
 
   useEffect(() => {
     console.log('Effect triggered with playerId:', playerId);
@@ -132,10 +134,14 @@ const PlayerProfile = () => {
           playerService.getPlayerScoutRankings(id)
         ]);
 
+        // Fetch measurements
+        const playerMeasurements = await playerService.getPlayerMeasurements(id);
+
         setPlayer(playerData);
         setStats(combineSeasonLogs(playerStats));
         setScoutingReports(reports);
         setScoutRankings(rankings);
+        setMeasurements(playerMeasurements);
         setError(null);
       } catch (err) {
         console.error('Error in fetchPlayerData:', err);
@@ -289,10 +295,101 @@ const PlayerProfile = () => {
             <div className="player-basic-info">
               <h1>{player.name}</h1>
               <p><strong>Current Team:</strong> {player.currentTeam} ({player.league})</p>
-              <p><strong>Height:</strong> {Math.floor(player.height / 12)}'{player.height % 12}"</p>
-              <p><strong>Weight:</strong> {player.weight} lbs</p>
-              <button className="back-button">Advanced Measurements</button>
+              <div className="measurements-row">
+                <div className="measurements-info">
+                  <p style={{ marginRight: '0rem' }}><strong>Height/Weight:</strong> {Math.floor(player.height / 12)}'{player.height % 12}" / {player.weight} lbs</p>
+                </div>
+                <button 
+                  className="back-button"
+                  onClick={() => setShowMeasurements(true)}
+                  style={{ 
+                    padding: '0.25rem',
+                    minWidth: '24px',
+                    height: '24px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: '14rem',
+                    scale: '0.75'
+                  }}
+                >
+                  <AiOutlinePlus size={16} />
+                </button>
+              </div>
               <p><strong>Birth Date:</strong> {new Date(player.birthDate).toLocaleDateString()}</p>
+              {/* Measurements Modal */}
+              {showMeasurements && measurements && (
+                <div className="modal-overlay">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h2>Advanced Measurements for {player.name}</h2>
+                      <button onClick={() => setShowMeasurements(false)} className="close-button">×</button>
+                    </div>
+                    <div className="measurements-grid">
+                      <div className="measurement-item">
+                        <span className="label">Height (No Shoes)</span>
+                        <span className="value">
+                          {measurements.heightNoShoes ? 
+                            `${Math.floor(measurements.heightNoShoes / 12)}'${(measurements.heightNoShoes % 12).toFixed(2)}"` : 
+                            'N/A'}
+                        </span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Wingspan</span>
+                        <span className="value">
+                          {measurements.wingspan ? 
+                            `${Math.floor(measurements.wingspan / 12)}'${(measurements.wingspan % 12).toFixed(2)}"` : 
+                            'N/A'}
+                        </span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Standing Reach</span>
+                        <span className="value">
+                          {measurements.reach ? 
+                            `${Math.floor(measurements.reach / 12)}'${(measurements.reach % 12).toFixed(2)}"` : 
+                            'N/A'}
+                        </span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Max Vertical</span>
+                        <span className="value">{measurements.maxVertical?.toFixed(1) ?? 'N/A'}"</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">No Step Vertical</span>
+                        <span className="value">{measurements.noStepVertical?.toFixed(1) ?? 'N/A'}"</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Weight</span>
+                        <span className="value">{measurements.weight ?? 'N/A'} lbs</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Body Fat</span>
+                        <span className="value">{measurements.bodyFat ? `${measurements.bodyFat.toFixed(1)}%` : 'N/A'}</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Hand Length</span>
+                        <span className="value">{measurements.handLength?.toFixed(2) ?? 'N/A'}"</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Hand Width</span>
+                        <span className="value">{measurements.handWidth?.toFixed(2) ?? 'N/A'}"</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Lane Agility</span>
+                        <span className="value">{measurements.agility?.toFixed(2) ?? 'N/A'} sec</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Sprint</span>
+                        <span className="value">{measurements.sprint?.toFixed(2) ?? 'N/A'} sec</span>
+                      </div>
+                      <div className="measurement-item">
+                        <span className="label">Shuttle (Best)</span>
+                        <span className="value">{measurements.shuttleBest?.toFixed(2) ?? 'N/A'} sec</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               <p><strong>Nationality:</strong> {player.nationality}</p>
               <p><strong>Hometown:</strong> {player.homeTown}, {player.homeState || player.homeCountry}</p>
               {player.highSchool && (

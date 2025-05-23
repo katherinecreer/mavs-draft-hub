@@ -49,7 +49,7 @@ const MockDraft = () => {
   };
 
   return (
-    <div className="mock-draft-container">
+    <div className="mock-draft-container" style={{ marginTop: '0rem'}}>
       <div className="draft-board">
         <div className="draft-header">
           <h2>2025 NBA Mock Draft</h2>
@@ -72,7 +72,7 @@ const MockDraft = () => {
                   <h4>{player.name}</h4>
                   <p>{player.currentTeam}</p>
                   <p>{formatHeight(player.height)}, {player.weight} lbs</p>
-                  <p>{player.nationality}</p>
+                  <p>{player.currentTeam}</p>
                 </div>
               ))}
             </div>

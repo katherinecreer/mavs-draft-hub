@@ -74,6 +74,22 @@
   font-size: 2.5rem;
 }
 
+.measurements-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+
+.measurements-info {
+  display: flex;
+  gap: 2rem;
+}
+
+.measurements-info p {
+  margin: 0;
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -633,4 +649,99 @@
   outline: none;
   border-color: #0066cc;
   box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+}
+
+/* Measurements Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: rgb(17, 24, 39);
+  padding: 1.5rem;
+  border-radius: 12px;
+  max-width: 900px;
+  width: 95%;
+  position: relative;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.close-button:hover {
+  color: #fff;
+}
+
+.measurements-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.measurement-item {
+  background-color: rgb(31, 41, 55);
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+}
+
+.measurement-item .label {
+  color: #9ca3af;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  display: block;
+}
+
+.measurement-item .value {
+  color: #fff;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .measurements-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .measurements-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    padding: 1rem;
+  }
 } 
