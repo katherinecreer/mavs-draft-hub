@@ -80,6 +80,7 @@ const PlayerProfile = () => {
   const { playerId } = useParams();
   const navigate = useNavigate();
   const [player, setPlayer] = useState<Player | null>(null);
+  const [allPlayers, setAllPlayers] = useState<Player[]>([]);
   const [stats, setStats] = useState<SeasonLog[]>([]);
   const [scoutingReports, setScoutingReports] = useState<ScoutingReport[]>([]);
   const [scoutRankings, setScoutRankings] = useState<ScoutRanking | undefined>(undefined);
@@ -195,6 +196,30 @@ const PlayerProfile = () => {
     setInternalNotes(prev => prev.filter(note => note.id !== id));
   };
 
+  // Add effect to fetch all players
+  useEffect(() => {
+    const fetchAllPlayers = async () => {
+      try {
+        const players = playerService.getAllPlayers();
+        // Sort players by name for the dropdown
+        setAllPlayers(players.sort((a, b) => a.name.localeCompare(b.name)));
+      } catch (err) {
+        console.error('Error fetching all players:', err);
+      }
+    };
+
+    fetchAllPlayers();
+  }, []);
+
+  const handlePlayerChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newPlayerId = event.target.value;
+    if (!newPlayerId) {
+      navigate('/draft-hub');
+    } else {
+      navigate(`/player/${newPlayerId}`);
+    }
+  };
+
   if (loading) {
     return (
       <div className="loading">
@@ -230,13 +255,19 @@ const PlayerProfile = () => {
         <button className="back-button" onClick={() => navigate('/draft-hub')}>
           Return to Hub
         </button>
-        <div className="player-navigation">
-          <button className="back-button prev" onClick={() => navigate(`/player/${parseInt(playerId || '0') - 1}`)}>
-            &lt;
-          </button>
-          <button className="back-button next" onClick={() => navigate(`/player/${parseInt(playerId || '0') + 1}`)}>
-            &gt;
-          </button>
+        <div className="player-selector">
+          <select 
+            value={player?.playerId || ''} 
+            onChange={handlePlayerChange}
+            className="player-dropdown"
+          >
+            <option value="">Select a player...</option>
+            {allPlayers.map((p) => (
+              <option key={p.playerId} value={p.playerId}>
+                {p.name} - {p.currentTeam}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       

@@ -15,7 +15,8 @@
 
 body {
   font-family: 'Inter', Arial, sans-serif;
-  background: #f4f6fa;
+  /* background: #f4f6fa; */
+  background-color: #B8C4CA;
   margin: 0;
   display: flex;
   place-items: center;
