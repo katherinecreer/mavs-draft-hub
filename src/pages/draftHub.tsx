@@ -11,6 +11,7 @@ const DraftHub = () => {
   const [players, setPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [hoveredPlayer, setHoveredPlayer] = useState<Player | undefined>();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,6 +36,10 @@ const DraftHub = () => {
     navigate(`/player/${playerId}`);
   };
 
+  const handlePlayerHover = (player: Player | undefined) => {
+    setHoveredPlayer(player);
+  };
+
   if (loading) {
     return <div className="loading">Loading players...</div>;
   }
@@ -47,8 +52,12 @@ const DraftHub = () => {
     <div className="draft-hub-outer">
       <div className="draft-hub-main">
         <DraftOrderPanel />
-        <BigBoardPanel players={players} handlePlayerClick={handlePlayerClick} />
-        <ActionButtonsPanel />
+        <BigBoardPanel 
+          players={players} 
+          handlePlayerClick={handlePlayerClick}
+          onPlayerHover={handlePlayerHover}
+        />
+        <ActionButtonsPanel hoveredPlayer={hoveredPlayer} />
       </div>
     </div>
   );

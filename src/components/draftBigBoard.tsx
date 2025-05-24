@@ -8,9 +8,10 @@ import SearchIcon from '@mui/icons-material/Search';
 interface draftBigBoardProps {
   players: Player[];
   handlePlayerClick: (playerId: number) => void;
+  onPlayerHover: (player: Player | undefined) => void;
 }
 
-const draftBigBoard: React.FC<draftBigBoardProps> = ({ players, handlePlayerClick }) => {
+const draftBigBoard: React.FC<draftBigBoardProps> = ({ players, handlePlayerClick, onPlayerHover }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Sort players by ADP and filter based on search term
@@ -70,6 +71,8 @@ const draftBigBoard: React.FC<draftBigBoardProps> = ({ players, handlePlayerClic
                 key={player.playerId}
                 className="big-board-row"
                 onClick={() => handlePlayerClick(player.playerId)}
+                onMouseEnter={() => onPlayerHover(player)}
+                onMouseLeave={() => onPlayerHover(undefined)}
                 style={{ cursor: 'pointer' }}
               >
                 <div className="player-avatar" style={{ marginLeft: '15px' }}>
