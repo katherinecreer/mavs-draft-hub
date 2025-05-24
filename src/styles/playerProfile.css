@@ -817,4 +817,80 @@
 .comparison-row {
   background-color: #f8f8f8;
   font-style: italic;
+}
+
+.advanced-analytics-card {
+  /* border: 2px solid #d1d5db; */
+  border-radius: 4px;
+  background: #fff;
+  margin: 1.5rem 0 1rem 0;
+  box-shadow: 0 2px 8px rgba(30,58,138,0.08);
+  max-width: 420px;
+  min-width: 320px;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.advanced-header {
+  background: #17408b;
+  color: #fff;
+  border-radius: 4px 14px 0 0;
+  display: flex;
+  justify-content: space-around;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.advanced-header span {
+  padding: 0.5rem 1.5rem;
+  opacity: 0.7;
+  transition: opacity 0.2s, border-bottom 0.2s;
+  border-bottom: 2px solid transparent;
+}
+
+.advanced-header .active {
+  opacity: 1;
+  border-bottom: 2px solid #fff;
+}
+
+.advanced-stats-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1.2rem 0.5rem 1.1rem 0.5rem;
+  background: #fff;
+}
+
+.advanced-stat {
+  text-align: center;
+  flex: 1 1 0;
+}
+
+.stat-value {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: #17408b;
+  line-height: 2.2rem;
+}
+
+.stat-label {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-top: 0.2rem;
+  font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .advanced-analytics-card {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .advanced-header span {
+    padding: 0.5rem 0.7rem;
+    font-size: 0.95rem;
+  }
+  .stat-value {
+    font-size: 1.3rem;
+  }
 } 

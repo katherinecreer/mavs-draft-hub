@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Tooltip from '@mui/material/Tooltip';
 
 interface InternalNote {
   id: number;
@@ -106,6 +107,7 @@ const PlayerProfile = () => {
   const [draftClassAverages, setDraftClassAverages] = useState<SeasonLog | null>(null);
   const [measurements, setMeasurements] = useState<Measurement | undefined>(undefined);
   const [showMeasurements, setShowMeasurements] = useState(false);
+  const [showCareerAdvanced, setShowCareerAdvanced] = useState(false);
 
   useEffect(() => {
     console.log('Effect triggered with playerId:', playerId);
@@ -240,6 +242,59 @@ const PlayerProfile = () => {
       navigate(`/player/${newPlayerId}`);
     }
   };
+
+  // Helper: Calculate advanced stats
+  const calculateAdvancedStats = (log: any) => {
+    const FGM = log.FGM ?? 0;
+    const FGA = log.FGA ?? 0;
+    const TPM = log['3PM'] ?? 0;
+    const PTS = log.PTS ?? 0;
+    const FTA = log.FTA ?? 0;
+    const AST = log.AST ?? 0;
+    const TRB = log.TRB ?? 0;
+    const STL = log.STL ?? 0;
+    const BLK = log.BLK ?? 0;
+    const TOV = log.TOV ?? 0;
+
+    const EFG = FGA ? ((FGM + 0.5 * TPM) / FGA) * 100 : 0;
+    const TS = (FGA || FTA) ? (PTS / (2 * (FGA + 0.44 * FTA))) * 100 : 0;
+    const BPM = (
+      0.15 * PTS +
+      0.20 * AST +
+      0.15 * TRB +
+      0.10 * STL +
+      0.10 * BLK -
+      0.10 * TOV -
+      0.10 * FGA -
+      0.05 * FTA
+    );
+    return {
+      EFG: EFG.toFixed(1),
+      TS: TS.toFixed(1),
+      BPM: BPM.toFixed(1),
+    };
+  };
+
+  const mostRecentSeason = stats.length > 0
+    ? stats.reduce((a, b) => (a.Season > b.Season ? a : b))
+    : null;
+  const careerTotals = stats.reduce<Record<string, number>>((acc, s) => {
+    (Object.keys(s) as Array<keyof typeof s>).forEach(key => {
+      if (typeof s[key] === 'number') {
+        acc[key] = (acc[key] || 0) + s[key];
+      }
+    });
+    return acc;
+  }, {});
+  const numSeasons = stats.length;
+  const careerAverages = numSeasons
+    ? Object.fromEntries(Object.entries(careerTotals).map(([k, v]) => [k, v / numSeasons]))
+    : {};
+  const advancedStats = showCareerAdvanced
+    ? calculateAdvancedStats(careerAverages)
+    : mostRecentSeason
+      ? calculateAdvancedStats(mostRecentSeason)
+      : { EFG: '-', TS: '-', BPM: '-' };
 
   if (loading) {
     return (
@@ -433,6 +488,46 @@ const PlayerProfile = () => {
                   </div>
                 </div>
               )}
+            </div>
+          </div>
+
+          {/* Advanced Analytics Card */}
+          <div className="advanced-analytics-card" style={{ width: '100%', maxWidth: 'none', minWidth: 0, boxSizing: 'border-box' }}>
+            <div className="advanced-header">
+              <span
+                className={!showCareerAdvanced ? 'active' : ''}
+                onClick={() => setShowCareerAdvanced(false)}
+                style={{ cursor: 'pointer' }}
+              >
+                {mostRecentSeason ? `${mostRecentSeason.Season}-${(mostRecentSeason.Season + 1).toString().slice(-2)} Season` : 'Season'}
+              </span>
+              <span
+                className={showCareerAdvanced ? 'active' : ''}
+                onClick={() => setShowCareerAdvanced(true)}
+                style={{ cursor: 'pointer' }}
+              >
+                Career
+              </span>
+            </div>
+            <div className="advanced-stats-row">
+              <div className="advanced-stat">
+                <Tooltip title="Effective Field Goal Percentage: Adjusts FG% to account for the fact that 3-pointers are worth more than 2-pointers. EFG% = (FGM + 0.5 × 3PM) / FGA" arrow>
+                  <div className="stat-value">{advancedStats.EFG}</div>
+                </Tooltip>
+                <div className="stat-label">EFG%</div>
+              </div>
+              <div className="advanced-stat">
+                <Tooltip title="True Shooting Percentage: Measures shooting efficiency including free throws and 3-pointers. TS% = Points / (2 × (FGA + 0.44 × FTA))" arrow>
+                  <div className="stat-value">{advancedStats.TS}</div>
+                </Tooltip>
+                <div className="stat-label">TS%</div>
+              </div>
+              <div className="advanced-stat">
+                <Tooltip title="Box Plus/Minus: Estimates a player's impact on the score while they're on the floor, based only on box score data. Higher BPM = more impact." arrow>
+                  <div className="stat-value">{advancedStats.BPM}</div>
+                </Tooltip>
+                <div className="stat-label">BPM</div>
+              </div>
             </div>
           </div>
 
