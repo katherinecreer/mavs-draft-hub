@@ -25,20 +25,16 @@ const WelcomeLogin = () => {
         height: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'space-between',
         margin: 0,
         padding: 0,
-        overflow: 'hidden'
       }}
     >
       <Container 
         maxWidth="sm" 
         sx={{ 
           display: 'flex',
-          justifyContent: 'center',
-          mt: 15,
-          mb: 0,
-          px: 2
+          mt: 16,
+          mb: 0
         }}
       >
         <Paper 
@@ -125,16 +121,17 @@ const WelcomeLogin = () => {
           </Box>
         </Paper>
       </Container>
-      <Box 
-        component="img" 
-        src={dallas} 
-        alt="Mavs Logo" 
-        sx={{ 
-          width: '100%',
-          display: 'block',
-          marginTop: 'auto'
-        }} 
-      />
+      <Box sx={{ mt: 'auto', bgcolor: '#00234B' }}>
+        <Box 
+          component="img" 
+          src={dallas} 
+          alt="Mavs Logo" 
+          sx={{ 
+            width: '100%',
+            display: 'block'
+          }} 
+        />
+      </Box>
     </Box>
   );
 };

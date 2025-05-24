@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import type { Player } from '../services/playerService';
 import { playerService } from '../services/playerService';
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
+import SearchIcon from '@mui/icons-material/Search';
 
 interface draftBigBoardProps {
   players: Player[];
@@ -32,12 +35,21 @@ const draftBigBoard: React.FC<draftBigBoardProps> = ({ players, handlePlayerClic
     <section className="big-board-panel">
       <h2>Available Players</h2>
       <div className="search-container">
-        <input
-          type="text"
+        <TextField
+          variant="outlined"
           placeholder="Search players..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="player-search-input"
+          fullWidth
+          size="small"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon color="action" />
+              </InputAdornment>
+            ),
+            sx: { backgroundColor: 'white', borderRadius: 1 }
+          }}
         />
       </div>
       <br />
